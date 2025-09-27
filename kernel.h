@@ -4,6 +4,7 @@
 #define PROCS_MAX 8
 #define PROCS_UNUSED 0
 #define PROC_RUNNABLE 1
+#define PROC_EXITED 2
 
 #define SATP_SV32 (1u <<31)
 #define PAGE_V (1 << 0)
@@ -11,6 +12,10 @@
 #define PAGE_W (1 << 2)
 #define PAGE_X (1 << 3)
 #define PAGE_U (1 << 4)
+
+#define USER_BASE 0x1000000
+#define SSTATUS_SPIE (1 << 5)
+#define SCAUSE_ECALL 8
 
 struct process {
     int pid;
@@ -78,3 +83,4 @@ struct trap_frame {
         __asm__ __volatile__("csrw " #reg ", %0" ::"r"(__tmp));                 \
     } while (0)
 
+void yield(void);
